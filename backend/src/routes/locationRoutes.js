@@ -1,26 +1,10 @@
-const express = require("express");
-const Location = require("../models/location.js");
+import express from "express";
+import { updateLocation, getLocations, getUserLatestLocation } from "../controllers/locationController.js";
+
 const router = express.Router();
 
-// Save live location
-router.post("/", async (req, res) => {
-  try {
-    const location = new Location(req.body);
-    await location.save();
-    res.json(location);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
+router.post("/", updateLocation);          // Save location
+router.get("/", getLocations);             // Get all locations
+router.get("/:userId", getUserLatestLocation); // Get latest for a specific user
 
-// Get latest location of a user
-router.get("/:userId", async (req, res) => {
-  try {
-    const location = await Location.findOne({ userId: req.params.userId }).sort({ timestamp: -1 });
-    res.json(location);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
-});
-
-module.exports = router;
+export default router;

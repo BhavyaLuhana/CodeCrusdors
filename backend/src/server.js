@@ -1,6 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
+import userRoutes from "./routes/userRoutes.js";
+import locationRoutes from "./routes/locationRoutes.js";
 import incidentRoutes from "./routes/incidentRoutes.js";
 import connectDB from "./config/db.js";
 
@@ -18,6 +20,8 @@ app.get("/", (req, res) => {
 });
 
 // Incident route
+app.use("/api/users", userRoutes);
+app.use("/api/locations", locationRoutes);
 app.use("/api/incidents", incidentRoutes);
 
 
