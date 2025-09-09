@@ -27,4 +27,3 @@ app.use("/api/incidents", incidentRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-console.log("🚀 Backend is running...");
