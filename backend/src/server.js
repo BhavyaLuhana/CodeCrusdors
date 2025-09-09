@@ -6,6 +6,7 @@ import locationRoutes from "./routes/locationRoutes.js";
 import incidentRoutes from "./routes/incidentRoutes.js";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
+import profileRoutes from "./routes/profileRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -26,6 +27,7 @@ app.use("/api/locations", locationRoutes);
 app.use("/api/incidents", incidentRoutes);
 
 app.use("/api/auth", authRoutes);
+app.use("/api/profile", profileRoutes);
 
 
 const PORT = process.env.PORT || 5000;
