@@ -46,6 +46,8 @@ export const requestLoginOTP = async (req, res) => {
 
     // generate OTP
     const otp = generateOTP();
+    const otpStore = {}; // { phoneNumber: otp }
+
     otpStore[phoneNumber] = otp;
 
     console.log(`Login OTP for ${phoneNumber}: ${otp}`);
