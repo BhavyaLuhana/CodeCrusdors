@@ -1,20 +1,30 @@
-// controllers/profileController.js
 import Profile from "../models/Profile.js";
+import { v4 as uuidv4 } from "uuid";
+import crypto from "crypto";
 
 // Add or update trip
 export const addTrip = async (req, res) => {
   try {
     const { startDate, endDate, destination, emergencyContacts } = req.body;
 
-    // find existing profile
-    let profile = await Profile.findOne({ user: req.user.id });
+    // Generate Digital ID
+    const rawId = uuidv4(); // unique ID
+    const hash = crypto
+      .createHash("sha256")
+      .update(req.user.id + startDate + destination)
+      .digest("hex");
 
     const newTrip = {
       startDate,
       endDate,
       destination,
       emergencyContacts,
+      digitalId: `${rawId}-${hash.slice(0, 8)}`, // combine UUID + short hash
+      status: "active",
     };
+
+    // find existing profile
+    let profile = await Profile.findOne({ user: req.user.id });
 
     if (!profile) {
       profile = new Profile({ user: req.user.id, trips: [newTrip] });
@@ -23,7 +33,11 @@ export const addTrip = async (req, res) => {
     }
 
     await profile.save();
-    res.status(201).json({ message: "Trip added successfully", profile });
+    res.status(201).json({
+      message: "Trip added successfully",
+      digitalId: newTrip.digitalId,
+      trip: newTrip,
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -40,3 +54,5 @@ export const getTrips = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+console.log("profileControllers.js loaded");
