@@ -7,6 +7,7 @@ import incidentRoutes from "./routes/incidentRoutes.js";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
+import tripRoutes from "./routes/tripRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -26,9 +27,12 @@ app.use("/api/users", userRoutes);
 app.use("/api/locations", locationRoutes);
 app.use("/api/incidents", incidentRoutes);
 
+// Auth & Profile routes
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
 
+//trip routes 
+app.use("/api/trips", tripRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

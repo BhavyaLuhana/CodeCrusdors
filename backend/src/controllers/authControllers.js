@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
 // simulate OTP (later connect to SMS API)
+const otpStore = {}; // { phoneNumber: otp }
 const generateOTP = () => Math.floor(1000 + Math.random() * 9000).toString();
 
 // REGISTER
@@ -46,7 +47,6 @@ export const requestLoginOTP = async (req, res) => {
 
     // generate OTP
     const otp = generateOTP();
-    const otpStore = {}; // { phoneNumber: otp }
 
     otpStore[phoneNumber] = otp;
 
